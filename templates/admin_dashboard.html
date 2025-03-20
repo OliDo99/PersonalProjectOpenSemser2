@@ -1,0 +1,42 @@
+<link rel="stylesheet" href="../static/css/style.css">
+<div class="admin-dashboard">
+    <h2>Admin Dashboard</h2>
+    
+    <div class="calendar-nav">
+        <button id="prev-week">Previous Week</button>
+        <h3 id="current-week">Week of <span id="week-date"></span></h3>
+        <button id="next-week">Next Week</button>
+    </div>
+
+    <div class="calendar-grid">
+        <!-- Header row -->
+        <div class="calendar-header">Hours</div>
+        {% for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] %}
+            <div class="calendar-header">{{ day }}</div>
+        {% endfor %}
+
+        <!-- Time slots -->
+        {% for hour in range(8, 22) %}
+            <!-- Time column -->
+            <div class="time-column">
+                {{ '%02d:00'|format(hour) }}
+            </div>
+            
+            <!-- Days columns -->
+            {% for day in range(7) %}
+                <div class="calendar-cell" 
+                     data-hour="{{ hour }}" 
+                     data-day="{{ day }}">
+                    <!-- This will be populated with staff availability -->
+                    <div class="staff-available"></div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+// Set current week date
+const today = new Date();
+document.getElementById('week-date').textContent = today.toLocaleDateString();
+</script>

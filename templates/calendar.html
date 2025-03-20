@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="../static/css/style.css">
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script> 
+<div class="calendar-container">
+    <h2>Set Your Availability</h2>
+    
+    <div class="calendar-navigation">
+        <form action="/calendar" method="POST">
+            <input type="hidden" name="direction" value="-7">
+            <input type="hidden" name="today" value="{{ today }}">
+            <button type="submit">Previous Week</button>
+        </form>
+        <h3>Week of {{ today }}</h3>
+        <form action="/calendar" method="POST">
+            <input type="hidden" name="direction" value="7">
+            <input type="hidden" name="today" value="{{ today }}">
+            <button type="submit">Next Week</button>
+        </form>
+    </div>
+
+    <div class="calendar-grid">
+        <div class="calendar-header">Hours</div>
+        {% for date in week_dates %}
+            <div class="calendar-header">
+                {{ date.strftime('%a') }}<br>
+                {{ date.strftime('%d %b') }}
+            </div>
+        {% endfor %}
+
+        
+        {% for hour in range(0, 24) %}
+            
+            <div class="time-column">
+                {{ '%02d:00'|format(hour) }}
+            </div>
+            
+            {% for date in week_dates %}
+                {% set cell_key = date.strftime('%Y-%m-%d') ~ '-' ~ hour %}
+                <div class="calendar-cell{% if cell_key in saved_availability %} selected{% endif %}" 
+                     data-hour="{{ hour }}" 
+                     data-date="{{ date.strftime('%Y-%m-%d') }}"
+                     onclick="toggleAvailability(this)">
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+
+    <form action="{{ url_for('save_availability') }}" method="POST" id="availability-form">
+        <input type="hidden" name="today" value="{{ today }}">
+        <input type="hidden" name="availability_data" id="availability-data">
+        <button type="submit">Save Availability</button>
+    </form>
+</div>
