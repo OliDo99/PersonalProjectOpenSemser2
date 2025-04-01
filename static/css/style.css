@@ -54,3 +54,11 @@
     align-items: center;
     background-color: #f8f8f8;
 }
+
+
+
+.schedule { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; max-width: 1200px; margin: 20px auto; }
+.day, .time-slot { padding: 10px; border: 1px solid #ccc; cursor: pointer; }
+.day { background: #ddd; font-weight: bold; }
+.available { background: lightgreen; }
+.calendar-navigation { display: flex; justify-content: space-between; align-items: center; margin: 20px; }

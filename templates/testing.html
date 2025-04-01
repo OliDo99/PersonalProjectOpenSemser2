@@ -1,0 +1,66 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Availability Scheduler</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .schedule { display: grid; grid-template-columns: repeat(8, 1fr); gap: 5px; max-width: 600px; margin: 20px auto; }
+        .day, .time-slot { padding: 10px; border: 1px solid #ccc; cursor: pointer; }
+        .day { background: #ddd; font-weight: bold; }
+        .available { background: lightgreen; }
+    </style>
+</head>
+<body>
+    <h2>Select Your Availability</h2>
+    <div class="schedule" id="schedule"></div>
+    <button onclick="submitAvailability()">Submit Availability</button>
+    
+    <script>
+        const days = ["Time", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+        const hours = ["09:00", "12:00", "15:00", "18:00"];
+        const schedule = document.getElementById("schedule");
+
+        function generateGrid() {
+            // Create header row
+            days.forEach(day => {
+                let div = document.createElement("div");
+                div.className = "day";
+                div.innerText = day;
+                schedule.appendChild(div);
+            });
+
+            // Create time slots
+            hours.forEach(hour => {
+                let timeDiv = document.createElement("div");
+                timeDiv.className = "day";
+                timeDiv.innerText = hour;
+                schedule.appendChild(timeDiv);
+
+                for (let i = 1; i < days.length; i++) {
+                    let slot = document.createElement("div");
+                    slot.className = "time-slot";
+                    slot.dataset.day = days[i];
+                    slot.dataset.time = hour;
+                    slot.onclick = toggleAvailability;
+                    schedule.appendChild(slot);
+                }
+            });
+        }
+
+        function toggleAvailability() {
+            this.classList.toggle("available");
+        }
+
+        function submitAvailability() {
+            let selectedSlots = [];
+            document.querySelectorAll(".available").forEach(slot => {
+                selectedSlots.push({ day: slot.dataset.day, time: slot.dataset.time });
+            });
+            alert("Selected availability: " + JSON.stringify(selectedSlots, null, 2));
+        }
+
+        generateGrid();
+    </script>
+</body>
+</html>

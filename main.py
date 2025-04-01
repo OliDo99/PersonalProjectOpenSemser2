@@ -64,13 +64,18 @@ def update_availability():
 @app.route('/save_availability', methods=['POST'])
 @login_required
 def save_availability():
-    # Get the JSON string from the hidden form field
+
+    current_date = request.form.get("today")
+    today = datetime.strptime(current_date, "%d %B, %Y").date()
+    week_dates = get_week_dates(today)
+    today = today.strftime("%d %B, %Y")
+
     availability_json = request.form.get("availability_data")
     try:
         new_availability = json.loads(availability_json) if availability_json else []
     except json.JSONDecodeError:
         new_availability = []
-    print("Received availability:", new_availability)
+    
     
     # Load the current availability from the file
     all_availability = load_availability()
@@ -78,14 +83,14 @@ def save_availability():
     
     # Merge both lists using set union to avoid duplicate keys
     merged_availability = list(set(current_availability) | set(new_availability))
-    print("Merged availability:", merged_availability)
     
     # Save the merged availability data back to the file
     all_availability[current_user.id] = merged_availability
     with open(availability_file, "w") as f:
         json.dump(all_availability, f)
-        
-    return redirect(url_for('user_calendar'))
+
+    saved_availability = load_availability().get(current_user.id, [])
+    return render_template('calendar.html', today=today, week_dates=week_dates, saved_availability=saved_availability)
 
 # Routes for admin side
 @app.route('/admin')
