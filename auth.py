@@ -6,9 +6,25 @@ auth = Blueprint('auth', __name__)
 login_manager = LoginManager()
 
 
-class User(UserMixin):
+class User():
     def __init__(self, id):
         self.id = id
+        self.is_admin = id in ['admin']  # You can modify this list to include admin users
+    
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
 @login_manager.user_loader
 def load_user(user_id):
