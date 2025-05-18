@@ -2,8 +2,10 @@
 <html>
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Availability Calendar</title>
 </head>
-<body>
+<body>    {% from 'header.html' import header %}
+    {{ header(current_user) }}
     <div class="calendar-container">
         <h2>Set Your Availability</h2>
         
@@ -24,15 +26,13 @@
         <form action="{{ url_for('save_availability') }}" method="POST" id="availability-form">
             <input type="hidden" name="today" value="{{ today }}">
             <input type="hidden" name="availability_data" id="availability-data">
-            
-            <div class="calendar-grid">
-                <table>
+              <div class="calendar-grid">
+                <table class="modern-table">
                     <thead>
                         <tr>
                             <th>Date</th>
                             <th>From</th>
                             <th>To</th>
-                                
                         </tr>
                     </thead>
                     <tbody>
@@ -70,7 +70,7 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit">Save Availability</button>
+            <button type="submit" class="login-button">Save Availability</button>
         </form>
     </div>
 

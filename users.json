@@ -1,0 +1,18 @@
+{
+    "Oliver": {
+        "password": "0000",
+        "is_admin": false
+    },
+    "Daan": {
+        "password": "0000",
+        "is_admin": false
+    },
+    "Stefan": {
+        "password": "0000",
+        "is_admin": false
+    },
+    "admin": {
+        "password": "0000",
+        "is_admin": true
+    }
+}

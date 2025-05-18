@@ -2,19 +2,58 @@
 <html>
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Admin Dashboard</title>
 </head>
 <body>
+    {% from 'header.html' import header %}
+    {{ header(current_user) }}
     <div class="admin-dashboard">
-        <h2>Admin Dashboard</h2>
-        
-        <div class="calendar-nav">
-            <button id="prev-week">Previous Week</button>
-            <h3 id="current-week">Week of {{ today }}</span></h3>
-            <button id="next-week">Next Week</button>
+        <h2>Staff Requirements Dashboard</h2>
+        <div class="week-navigation">
+            <form action="{{ url_for('admin_dashboard') }}" method="POST" class="nav-form">
+                <input type="hidden" name="direction" value="-7">
+                <input type="hidden" name="today" value="{{ today }}">
+                <button type="submit" class="nav-button">Previous Week</button>
+            </form>
+            <h3>Week of {{ today }}</h3>
+            <form action="{{ url_for('admin_dashboard') }}" method="POST" class="nav-form">
+                <input type="hidden" name="direction" value="7">
+                <input type="hidden" name="today" value="{{ today }}">
+                <button type="submit" class="nav-button">Next Week</button>
+            </form>
         </div>
 
-       
-
+        <div class="hourly-requirements">
+            <h3>Set Hourly Staff Requirements</h3>
+            <form id="requirements-form" onsubmit="return false;">
+                <input type="hidden" name="today" value="{{ today }}">
+                <table class="requirements-table">
+                    <thead>
+                        <tr>
+                            <th>Hour</th>
+                            <th>Required Staff</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for hour in range(24) %}
+                            <tr>
+                                <td>{{ '%02d:00'|format(hour) }}</td>
+                                <td>
+                                    <input type="number" 
+                                           min="0" 
+                                           class="staff-requirement" 
+                                           data-hour="{{ hour }}"
+                                           value="{{ hourly_requirements.get(hour|string, 0) }}">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button type="submit" class="login-button">Save Requirements</button>
+            </form>
+        </div>
+    </div>
+    
     <script src="{{ url_for('static', filename='js/admin_dashboard.js') }}"></script>
 </body>
 </html>

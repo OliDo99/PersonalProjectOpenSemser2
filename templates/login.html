@@ -4,13 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <h2>Login</h2>
-    <form method="POST" action="{{ url_for('auth.login') }}">
-        <label for="user_id">User Name:</label>
-        <input type="text" id="user_id" name="user_id" required>
-        <button type="submit">Login</button>
-    </form>
+<body class="login-page">    <div class="login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form method="POST" action="{{ url_for('auth.login') }}">
+                <div class="input-group">
+                    <input type="text" id="user_id" name="user_id" required>
+                    <label for="user_id">Username</label>
+                </div>
+                <div class="input-group">
+                    <input type="password" id="password" name="password" required>
+                    <label for="password">Password</label>
+                </div>
+                <div class="remember-forgot">
+                    <label class="remember-me">
+                        <input type="checkbox" name="remember">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+                <button type="submit" class="login-button">Login</button>
+                <div class="register-link">
+                    Don't have an account? <a href="#">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,21 @@
+{% macro header(current_user) %}
+<header class="main-header">
+    <div class="header-content">
+        <div class="user-info">
+            {% if current_user.is_authenticated %}
+            <span class="user-name">Welcome, {{ current_user.id }}</span>
+            {% endif %}
+        </div>
+        <nav class="header-nav">
+            
+            {% if current_user.is_admin %}
+                <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Admin Dashboard</a>
+                <a href="{{ url_for('view_schedule') }}" class="nav-link">View Schedule</a>
+            {%else %}
+                <a href="{{ url_for('home') }}" class="nav-link">Calendar</a>
+            {% endif %}
+                <a href="{{ url_for('auth.logout') }}" class="nav-link">Logout</a>
+        </nav>
+    </div>
+</header>
+{% endmacro %}
